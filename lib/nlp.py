@@ -1,23 +1,35 @@
 import nltk
+import re
 
 from nltk import sent_tokenize, word_tokenize
 from nltk.tokenize import PunktSentenceTokenizer
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 
+stopWords = set(stopwords.words())
+
+def decontract(phrase):
+    phrase = re.sub(r"n\'t"," not",phrase)
+    phrase = re.sub(r"\'re"," are",phrase)
+    phrase = re.sub(r"\'s"," is",phrase)
+    phrase = re.sub(r"\'d"," would",phrase)
+    phrase = re.sub(r"\'ll"," will",phrase)
+    phrase = re.sub(r"\'t"," not",phrase)
+    phrase = re.sub(r"\'ve"," have",phrase)
+    phrase = re.sub(r"\'m"," am",phrase)
+    return phrase
+
 #Tokenize paragraph to phrases
 def tokenize_phrase(paragraph):
     return sent_tokenize(paragraph, "english")
 
-#Tokenize paragraph to words
-def tokenize_words(paragraph):
-    return word_tokenize(paragraph, "english")
-    
+#Tokenize phrase to words
+def tokenize_words(phrase):
+    return word_tokenize(phrase, "english")
+
 #Remove stop words (words that are of very little meaning)
-def remove_stop_words(paragraph):
-    stopWords = set(stopwords.words())
+def remove_stopwords(words):
     wordsFiltered = []
-    words = tokenize_words(paragraph)
     for word in words:
         if word not in stopWords:
             wordsFiltered.append(word) 

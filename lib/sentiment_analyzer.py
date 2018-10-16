@@ -1,3 +1,4 @@
+import lib.text_preprocess as tp
 import nltk.classify.util
 
 from nltk.classify import NaiveBayesClassifier
@@ -10,9 +11,9 @@ positive_vocab = [line.strip('\n') for line in open('resources/positive_training
 negative_vocab = [line.strip('\n') for line in open('resources/negative_training.set')]
 neutral_vocab = [line.strip('\n') for line in open('resources/neutral_training.set')]
 
-positive_features = [(word_feats(pos), 'pos') for pos in positive_vocab]
-negative_features = [(word_feats(neg), 'neg') for neg in negative_vocab]
-neutral_features = [(word_feats(neu), 'neu') for neu in neutral_vocab]
+positive_features = [(word_feats(tp.preprocess_phrase(pos)), 'pos') for pos in positive_vocab]
+negative_features = [(word_feats(tp.preprocess_phrase(neg)), 'neg') for neg in negative_vocab]
+neutral_features = [(word_feats(tp.preprocess_phrase(neu)), 'neu') for neu in neutral_vocab]
 
 train_set = negative_features + positive_features + neutral_features
 
@@ -31,4 +32,4 @@ def analyze(phrase):
             pos += 1
     # print('Positive: ' + str(float(pos)/len(words)))
     # print('Negative: ' + str(float(neg)/len(words)))
-    return str(float(pos)/len(words))
+    return float(pos)/len(words)

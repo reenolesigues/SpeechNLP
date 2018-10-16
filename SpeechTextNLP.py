@@ -5,34 +5,32 @@
 #############################
 
 import convertor.SpeechConvertor as sc
-import nlp.nlp as nlp
+import lib.nlp as nlp
 import string_metric.JaroWinkler as jarowinkler
-import nlp.sentiment as sentiment
+import lib.text_preprocess as tp
+import lib.sentiment_analyzer as sentiment
 
 print("========================= Speech Conversion =========================")
 
-# text_input = sc.speech_to_text("resources/english.wav")
-# print(text_input)
+text_input = sc.speech_to_text("resources/english.wav")
+print(text_input)
 # exit()
-text_input = "This is a demo sentence. I am not good in english."
+# text_input = "There aren't much to do these days. So I'll be working my ass off guys."
 
 print("========================= NLP Processing =========================")
 
 phrases = nlp.tokenize_phrase(text_input)
-# print(phrases)
 
-# for phrase in phrases: 
-#     print(phrase)
-#     print(nlp.tag_phrase(phrase))
+sentimentRating = 0.0
+rateCount = 0
 
-text_req = "The quick  brown fox jumps over the lazy dog"
- 
 for phrase in phrases:
     print("=== Token ===")
-    print("Analyzing phrase : " + phrase)
-    # print("Stemmed:" + str(nlp.stem(nlp.word_tokenize(text_input))))
-    print("Lemmatized:" + str(nlp.lemmatize(nlp.word_tokenize(text_req))))
-    # print("Removed Stopwords:" + str(nlp.remove_stop_words(text_input)))
-    # print("Similarity : " + repr(jarowinkler.metrics(phrase, text_req)))
-    # print("Positivity: " + sentiment.analyze(phrase))
+    print("Before : " + phrase)
+    print("After : " + str(tp.preprocess_phrase(phrase)))
+    sentimentRating += sentiment.analyze(phrase)
+    rateCount += 1
+
+sentiment = sentimentRating/rateCount
+print("Total Sentiment : " + str(sentiment))
 print("========================= END =========================")
