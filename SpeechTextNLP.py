@@ -21,15 +21,18 @@ print("========================= NLP Processing =========================")
 phrases = nlp.tokenize_phrase(text_input)
 # print(phrases)
 
-# for phrase in phrases:
+# for phrase in phrases: 
 #     print(phrase)
 #     print(nlp.tag_phrase(phrase))
 
-text_req = "The quick brown fox jumps over the lazy dog"
-
+text_req = "The quick  brown fox jumps over the lazy dog"
+ 
 for phrase in phrases:
     print("=== Token ===")
     print("Analyzing phrase : " + phrase)
-    print("Similarity : " + repr(jarowinkler.metrics(phrase, text_req)))
-    print("Positivity: " + sentiment.analyze(phrase))
+    # print("Stemmed:" + str(nlp.stem(nlp.word_tokenize(text_input))))
+    print("Lemmatized:" + str(nlp.lemmatize(nlp.word_tokenize(text_req))))
+    # print("Removed Stopwords:" + str(nlp.remove_stop_words(text_input)))
+    # print("Similarity : " + repr(jarowinkler.metrics(phrase, text_req)))
+    # print("Positivity: " + sentiment.analyze(phrase))
 print("========================= END =========================")
